@@ -31,18 +31,21 @@ library(ggplot2)
 # Sample data for all plots
 # You can replace this with your own data
 set.seed(123)
+# Create a data frame with consistent vector lengths
 data <- data.frame(
   Category = c("A", "B", "C", "D"),
   Value = c(25, 40, 15, 30),
-  Group1 = rnorm(100, mean = 0, sd = 1),
-  Group2 = rnorm(100, mean = 2, sd = 1),
+  Group1 = c(rnorm(100, mean = 0, sd = 1)),
+  Group2 = c(rnorm(100, mean = 2, sd = 1)),
   Time = 1:10,
   Values = c(3, 5, 7, 4, 8, 9, 6, 10, 12, 11),
   X = c(1, 2, 3, 4, 5),
   Y = c(2, 4, 1, 6, 3),
-  Label = c("Category A", "Category B", "Category C"),
-  Percentage = c(30, 40, 15)
+  Label = c("Category A", "Category B", "Category C", NA, NA),
+  Percentage = c(30, 40, 15, NA, NA)
 )
+
+# Replace NA values or adjust vector lengths as needed
 
 # Create a bar chart using ggplot2
 bar_plot <- ggplot(data, aes(x = Category, y = Value, fill = Category)) +
@@ -64,16 +67,23 @@ scatter_plot <- ggplot(data, aes(x = X, y = Y)) +
   geom_point() +
   labs(title = "Scatter Plot Example")
 
-# Create a pie chart using ggplot2 (requires some data transformation)
+# Create pie_chart_data using dplyr
+# Install and load the dplyr package
+install.packages("dplyr")
+library(dplyr)
+
 pie_chart_data <- data %>%
   group_by(Label) %>%
   summarise(Percentage = sum(Percentage))
+
+# Create the pie chart
 
 pie_chart <- ggplot(pie_chart_data, aes(x = "", y = Percentage, fill = Label)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar("y") +
   labs(title = "Pie Chart Example") +
   theme_void()
+
 
 # Display the plots
 print(bar_plot)

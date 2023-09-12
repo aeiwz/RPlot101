@@ -69,15 +69,11 @@ scatter_plot <- ggplot(data, aes(x = X, y = Y)) +
 
 # Create pie_chart_data using dplyr
 # Install and load the dplyr package
-install.packages("dplyr")
+# Your code for creating the pie chart
 library(dplyr)
-
 pie_chart_data <- data %>%
   group_by(Label) %>%
   summarise(Percentage = sum(Percentage))
-
-# Create the pie chart
-
 pie_chart <- ggplot(pie_chart_data, aes(x = "", y = Percentage, fill = Label)) +
   geom_bar(stat = "identity", width = 1) +
   coord_polar("y") +
